@@ -1,0 +1,8 @@
+# Ignore terraform variable files
+*.tfvars
+*.tfvars.json
+
+# Ignore credentials files
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
