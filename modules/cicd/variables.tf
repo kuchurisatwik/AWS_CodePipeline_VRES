@@ -50,25 +50,25 @@ variable "codestar_connection_arn" {
 variable "website_bucket_name" {
   description = "Name of the S3 bucket where the website is hosted"
   type        = string
-  default = "chatapp-frontend-hosting-269196137888"
+  default = "chatapp-frontend-hosting"
 }
 
 variable "artifact_bucket_name" {
   description = "Name of the S3 bucket where pipeline artifacts are stored"
   type        = string
-  default = "chatapp-frontend-pipeline-artifacts-269196137888"
+  default = "chatapp-frontend-pipeline-artifacts"
 }
 
 variable "cloudfront_distribution_id" {
   description = "ID of the CloudFront distribution to invalidate"
   type        = string
-  default = "E280CWAD4BUV31"
+  
 }
 
 variable "codebuild_role_arn" {
   description = "ARN of the IAM role for CodeBuild"
   type        = string
-  default = "arn:aws:iam::269196137888:role/chatapp-frontend-codebuild-role"
+  
 }
 
 
@@ -77,7 +77,7 @@ variable "codebuild_role_arn" {
 variable "codepipeline_role_arn" {
   description = "ARN of the IAM role for CodePipeline"
   type        = string
-  default = "arn:aws:iam::269196137888:role/chatapp-frontend-codepipeline-role"
+  
 }
 
 
