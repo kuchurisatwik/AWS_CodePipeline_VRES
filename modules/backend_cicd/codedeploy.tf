@@ -1,0 +1,21 @@
+resource "aws_codedeploy_app" "backend_app" {
+  compute_platform = "Server"
+  name             = "${var.project_name}-backend-app"
+}
+
+resource "aws_codedeploy_deployment_group" "backend_dg" {
+  app_name              = aws_codedeploy_app.backend_app.name
+  deployment_group_name = "${var.project_name}-backend-dg"
+  service_role_arn      = aws_iam_role.codedeploy_role.arn
+
+  deployment_style {
+    deployment_option = "WITHOUT_TRAFFIC_CONTROL"
+    deployment_type   = "IN_PLACE"
+  }
+
+  ec2_tag_filter {
+    key   = "Name"
+    type  = "KEY_AND_VALUE"
+    value = "tf-ec2-instance" # Must match ec2.tf tag
+  }
+}
