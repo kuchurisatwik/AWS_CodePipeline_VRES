@@ -47,7 +47,7 @@ resource "aws_codebuild_project" "invalidate_cache" {
         build = {
           commands = [
             "echo Invalidating CloudFront Distribution ${var.cloudfront_distribution_id}...",
-            "aws cloudfront create-invalidation --distribution-id ${aws_cloudfront_distribution.website_distribution.id} --paths \"/*\""
+            "aws cloudfront create-invalidation --distribution-id ${var.cloudfront_distribution_id} --paths \"/*\""
           ]
         }
       }
