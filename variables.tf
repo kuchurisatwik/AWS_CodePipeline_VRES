@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Base name for resources"
   type        = string
-  default     = "chatapp-frontend"
+  default     = "chatapp"
 }
 
 # CHANGE THIS: Your specific GitHub details
