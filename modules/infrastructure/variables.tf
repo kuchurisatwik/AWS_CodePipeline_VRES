@@ -17,3 +17,11 @@ variable "codestar_connection_arn" {
   default = "arn:aws:codeconnections:us-east-1:269196137888:connection/4ffc60ef-8acd-4b09-836e-be6e15f02cff"
 }
 
+variable "aws_access_key" {
+  type = string
+}
+
+variable "aws_secret_key" {
+  type = string
+  sensitive = true
+}

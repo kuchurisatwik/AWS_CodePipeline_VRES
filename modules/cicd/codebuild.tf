@@ -18,7 +18,7 @@ resource "aws_codebuild_project" "frontend_build" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "frontend/buildspec.yml" # Looks for this file in your repo
+    buildspec = "buildspec.yml" # Looks for this file in your repo
   }
 }
 
