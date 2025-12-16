@@ -1,7 +1,8 @@
 # 1. CALL THE INFRASTRUCTURE MODULE
 module "infra" {
-  source       = "./modules/infrastructure"
-  project_name = var.project_name
+  source                  = "./modules/infrastructure"
+  project_name            = var.project_name
+  codestar_connection_arn = var.codestar_connection_arn
 }
 
 # 2. CALL THE CI/CD MODULE
