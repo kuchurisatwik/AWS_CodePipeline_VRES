@@ -1,9 +1,9 @@
 resource "aws_codepipeline" "frontend_pipeline" {
   name     = "${var.project_name}-pipeline"
-  role_arn = aws_iam_role.codepipeline_role.arn
+  role_arn = var.codepipeline_role_arn
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_bucket.bucket
+    location = var.artifact_bucket_name
     type     = "S3"
   }
 
@@ -22,7 +22,7 @@ resource "aws_codepipeline" "frontend_pipeline" {
       configuration = {
         ConnectionArn    = var.codestar_connection_arn
         FullRepositoryId = "${var.github_repo_owner}/${var.github_repo_name}"
-        BranchName       = var.github_branch
+        BranchName       = "main"
       }
     }
   }
@@ -60,7 +60,7 @@ resource "aws_codepipeline" "frontend_pipeline" {
       version         = "1"
 
       configuration = {
-        BucketName = aws_s3_bucket.website_bucket.bucket
+        BucketName = var.website_bucket_name
         Extract    = "true" # Unzips the artifact before upload
       }
       run_order = 1
