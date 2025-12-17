@@ -30,10 +30,14 @@ resource "aws_iam_role_policy" "codebuild_policy" {
       },
       {
         Effect = "Allow"
-        Action = ["s3:GetObject", "s3:PutObject", "s3:GetObjectVersion"]
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:GetObjectVersion"
+        ]
         Resource = [
           "${aws_s3_bucket.codepipeline_bucket.arn}/*",
-          "${aws_s3_bucket.website_bucket.arn}/*" 
+          "${aws_s3_bucket.website_bucket.arn}/*"
         ]
       },
       # Permission to Invalidate CloudFront
@@ -68,9 +72,20 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+        # FIX 1: Combined S3 permissions for Artifact Bucket
+        # Allows access to the Bucket Root (for listing/versioning) AND Objects
         Effect = "Allow"
-        Action = ["s3:GetObject", "s3:PutObject", "s3:GetObjectVersion", "s3:GetBucketVersioning"]
-        Resource = "${aws_s3_bucket.codepipeline_bucket.arn}/*"
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketVersioning",
+          "s3:PutObjectAcl"
+        ]
+        Resource = [
+          "${aws_s3_bucket.codepipeline_bucket.arn}",
+          "${aws_s3_bucket.codepipeline_bucket.arn}/*"
+        ]
       },
       {
         Effect = "Allow"
@@ -84,8 +99,20 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       },
       {
         Effect = "Allow"
-        Action = ["s3:PutObject"]
+        Action = ["s3:PutObject", "s3:PutObjectAcl"]
         Resource = "${aws_s3_bucket.website_bucket.arn}/*"
+      },
+      # FIX 2: Added CodeDeploy permissions for the Backend Pipeline
+      {
+        Effect = "Allow"
+        Action = [
+          "codedeploy:CreateDeployment",
+          "codedeploy:GetDeployment",
+          "codedeploy:GetDeploymentConfig",
+          "codedeploy:RegisterApplicationRevision",
+          "codedeploy:GetApplicationRevision"
+        ]
+        Resource = "*"
       }
     ]
   })
