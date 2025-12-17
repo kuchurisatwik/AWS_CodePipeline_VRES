@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "frontend_pipeline" {
-  name     = "${var.project_name}-pipeline"
+  name     = "${var.project_name}-backend-pipeline"
   role_arn = var.codepipeline_role_arn
 
   artifact_store {
