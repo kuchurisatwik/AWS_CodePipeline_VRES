@@ -40,7 +40,6 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "${aws_s3_bucket.website_bucket.arn}/*"
         ]
       },
-      # Permission to Invalidate CloudFront
       {
         Effect = "Allow"
         Action = ["cloudfront:CreateInvalidation"]
@@ -51,7 +50,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 }
 
 # --------------------------------------------------------
-# 2. CodePipeline Service Role
+# 2. CodePipeline Service Role (THIS IS THE ONE CAUSING YOUR ERROR)
 # --------------------------------------------------------
 resource "aws_iam_role" "codepipeline_role" {
   name = "${var.project_name}-codepipeline-role"
@@ -65,15 +64,14 @@ resource "aws_iam_role" "codepipeline_role" {
     }]
   })
 }
-
 resource "aws_iam_role_policy" "codepipeline_policy" {
   role = aws_iam_role.codepipeline_role.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        # FIX 1: Combined S3 permissions for Artifact Bucket
-        # Allows access to the Bucket Root (for listing/versioning) AND Objects
+        # FIX 1: Allow access to BOTH the Bucket Root and Objects
+        # This fixes the s3:PutObject error you are seeing.
         Effect = "Allow"
         Action = [
           "s3:GetObject",
@@ -83,8 +81,8 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
           "s3:PutObjectAcl"
         ]
         Resource = [
-          "${aws_s3_bucket.codepipeline_bucket.arn}",
-          "${aws_s3_bucket.codepipeline_bucket.arn}/*"
+          "${aws_s3_bucket.codepipeline_bucket.arn}",   
+          "${aws_s3_bucket.codepipeline_bucket.arn}/*" 
         ]
       },
       {
@@ -102,7 +100,7 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
         Action = ["s3:PutObject", "s3:PutObjectAcl"]
         Resource = "${aws_s3_bucket.website_bucket.arn}/*"
       },
-      # FIX 2: Added CodeDeploy permissions for the Backend Pipeline
+      # FIX 2: Added CodeDeploy permissions (Crucial for the next stage)
       {
         Effect = "Allow"
         Action = [
