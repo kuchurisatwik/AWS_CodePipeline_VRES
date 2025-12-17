@@ -63,3 +63,13 @@ module "backend_cicd" {
   codebuild_role_arn    = module.infra.codebuild_role_arn
   codepipeline_role_arn = module.infra.codepipeline_role_arn
 }
+
+
+# =========================================================================
+# 5. NOTIFICATIONS (CloudWatch -> SNS -> Email)
+# =========================================================================
+module "notifications" {
+  source       = "./modules/notifications"
+  project_name = var.project_name
+  alert_email  = var.alert_email
+}

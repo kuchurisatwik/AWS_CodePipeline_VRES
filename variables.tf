@@ -46,3 +46,8 @@ variable "aws_secret_key" {
   type = string
   sensitive = true
 }
+
+variable "alert_email" {
+  description = "Email for pipeline alerts"
+  type        = string
+}
