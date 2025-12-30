@@ -1,7 +1,3 @@
-Sure — here’s a **well-structured, ready-to-copy `README.md`** for your **AWS_CodePipeline_VRES** repository (based on the Terraform infrastructure I see and typical AWS CodePipeline CI/CD use case):
-
----
-
 ````markdown
 # AWS_CodePipeline_VRES
 
